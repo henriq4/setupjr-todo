@@ -3,7 +3,7 @@ import { parseCookies, setCookie } from "nookies";
 import Router from "next/router";
 
 import { AuthContext } from "../contexts/AuthContext";
-import { recoverUserInformation, signInRequest } from "../api";
+import { recoverUserInformation, signInRequest, signUpRequest } from "../api";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -32,8 +32,20 @@ export function AuthProvider({ children }) {
     Router.push("/");
   }
 
+  async function signUp({ name, email, password }) {
+    const { token, user } = await signUpRequest({ name, email, password });
+
+    setCookie(undefined, "todo.token", token, {
+      maxAge: 60 * 60 * 1, // 1 hora
+    });
+
+    setUser(user);
+
+    Router.push("/");
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signUp }}>
       {children}
     </AuthContext.Provider>
   );

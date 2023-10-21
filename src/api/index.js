@@ -12,6 +12,18 @@ export async function signInRequest({ email }) {
   };
 }
 
+export async function signUpRequest({ name, email, password }) {
+  await delay();
+
+  return {
+    token: "any_token",
+    user: {
+      name: "Henrique",
+      email,
+    },
+  };
+}
+
 export async function recoverUserInformation() {
   await delay();
 
