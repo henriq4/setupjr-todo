@@ -1,9 +1,23 @@
+import { useForm } from "react-hook-form";
 import { withoutSSRAuth } from "../../utils/withoutSSRAuth";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 
 export default function Login() {
+  const { register, handleSubmit } = useForm();
+
+  const { signIn } = useContext(AuthContext);
+
+  async function handleSignIn(data) {
+    await signIn(data);
+  }
+
   return (
     <div className="w-scree h-screen flex items-center justify-center">
-      <form class="space-y-4 md:space-y-6 w-96" action="#">
+      <form
+        class="space-y-4 md:space-y-6 w-96"
+        onSubmit={handleSubmit(handleSignIn)}
+      >
         <div>
           <label
             for="email"
@@ -18,6 +32,7 @@ export default function Login() {
             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="name@company.com"
             required=""
+            {...register("email")}
           />
         </div>
         <div>
@@ -34,6 +49,7 @@ export default function Login() {
             placeholder="••••••••"
             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required=""
+            {...register("password")}
           />
         </div>
 
