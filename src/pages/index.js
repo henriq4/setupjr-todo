@@ -6,8 +6,13 @@ import { withSSRAuth } from "../utils/withSSRAuth";
 import { useTask } from "@/hooks/useTaks";
 
 export default function Home() {
-  const { tasks, newTask, handleNewTask, handleNewTaskChange, completes } =
-    useTask();
+  const {
+    tasks,
+    handleNewTask,
+    completes,
+    handleToggleTaskCompletion,
+    deleteTask,
+  } = useTask();
 
   return (
     <>
@@ -19,8 +24,6 @@ export default function Home() {
         >
           <input
             required
-            value={newTask}
-            onChange={handleNewTaskChange}
             className="w-4/5 bg-box text-sm outline-0 py-2 px-3 text-white placeholder:text-gray-600 rounded-md placeholder:text-sm"
             type="text"
             placeholder="Adicione uma tarefa..."
@@ -54,16 +57,14 @@ export default function Home() {
         {tasks.map((task) => {
           if (tasks.length > 0) {
             return (
-              // <Task
-              //   handleToggleTaskCompletion={handleToggleTaskCompletion}
-              //   id={task.id}
-              //   isComplete={task.isComplete}
-              //   onDeleteTask={deleteTask}
-              //   key={task.id}
-              //   title={task.title}
-              //   task={task}
-              // />
-              <Task key={task.id} />
+              <Task
+                key={task.id}
+                id={task.id}
+                task={task}
+                onDeleteTask={deleteTask}
+                handleToggleTaskCompletion={handleToggleTaskCompletion}
+              />
+              // <Task key={task.id} />
             );
           }
         })}

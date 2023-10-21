@@ -3,25 +3,19 @@ import { useState } from "react";
 export function useTask() {
   const [tasks, setTasks] = useState([]);
 
-  const [newTask, setNewTask] = useState("");
-
   function handleNewTask(event) {
     event.preventDefault();
+
+    const input = event.target[0];
 
     setTasks([
       ...tasks,
       {
-        id: 2,
-        title: newTask,
+        id: Math.random() * 1000,
+        title: input.value,
         isComplete: false,
       },
     ]);
-
-    setNewTask("");
-  }
-
-  function handleNewTaskChange({ target }) {
-    setNewTask(target.value);
   }
 
   function deleteTask(id) {
@@ -48,9 +42,7 @@ export function useTask() {
 
   return {
     tasks,
-    newTask,
     handleNewTask,
-    handleNewTaskChange,
     deleteTask,
     handleToggleTaskCompletion,
     completes,
